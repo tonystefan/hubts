@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Bem-vindo - Plataforma Multi-App{% endblock %}
+
+{% block content %}
+<div class="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl w-full text-center">
+        <h1 class="text-4xl font-extrabold text-gray-900 dark:text-white mb-6">
+            <span class="text-yellow-500">UFTM</span> Plataforma Multi-App
+        </h1>
+        <p class="text-xl text-gray-600 dark:text-gray-400 mb-8">
+            Uma plataforma integrada para gerenciamento de poços de água e caronas
+        </p>
+        
+        <div class="flex flex-col sm:flex-row justify-center gap-4 mb-12">
+            <a href="{% url 'core:login' %}" class="btn-primary text-center py-3 px-8 text-lg">
+                <i class="bx bx-log-in mr-2"></i> Entrar
+            </a>
+            <a href="{% url 'core:register' %}" class="btn-secondary text-center py-3 px-8 text-lg">
+                <i class="bx bx-user-plus mr-2"></i> Registrar
+            </a>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 text-left">
+                <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900 rounded-lg flex items-center justify-center mb-4">
+                    <i class="bx bxs-water-drop text-2xl text-yellow-600 dark:text-yellow-400"></i>
+                </div>
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Poços de Água</h2>
+                <p class="text-gray-600 dark:text-gray-400">
+                    Sistema para análise de consumo de poços de bombeamento de água, com geração de relatórios detalhados e exportação para Excel.
+                </p>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 text-left">
+                <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900 rounded-lg flex items-center justify-center mb-4">
+                    <i class="bx bxs-car text-2xl text-yellow-600 dark:text-yellow-400"></i>
+                </div>
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Caronas</h2>
+                <p class="text-gray-600 dark:text-gray-400">
+                    Sistema para registro e contabilização de caronas, com cálculo automático de divisão de custos e acompanhamento de débitos/créditos.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

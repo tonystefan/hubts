@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Análise de Poços de Água</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .table-responsive {
+            margin-top: 2rem;
+        }
+        .btn-export {
+            margin-top: 1rem;
+        }
+        .month-section {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0.25rem;
+        }
+        .month-title {
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="mb-4">
+            <h1 class="text-center">Sistema de Análise de Poços de Bombeamento de Água</h1>
+        </header>
+        
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+        
+        <footer class="mt-5 text-center text-muted">
+            <p>&copy; 2025 - Sistema de Análise de Poços de Água</p>
+        </footer>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

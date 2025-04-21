@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Resultados - Monitoramento de Poços de Água{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h2>Resultados da Geração de Dados - Ano {{ ano }}</h2>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-success">
+                    <h4 class="alert-heading">Tabela gerada com sucesso!</h4>
+                    <p>A tabela abaixo contém os dados gerados com base nos parâmetros fornecidos.</p>
+                </div>
+                
+                <div class="table-responsive">
+                    {{ tabela|safe }}
+                </div>
+                
+                <div class="mt-4 text-center">
+                    <a href="{% url 'pocos_app:exportar_xlsx' %}" class="btn btn-success btn-lg">
+                        <i class="fas fa-file-excel me-2"></i> Exportar para Excel
+                    </a>
+                    <a href="{% url 'pocos_app:index' %}" class="btn btn-secondary btn-lg ms-2">
+                        <i class="fas fa-arrow-left me-2"></i> Voltar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

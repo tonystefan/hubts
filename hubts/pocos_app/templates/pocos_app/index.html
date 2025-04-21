@@ -1,0 +1,237 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Monitoramento de Poços de Água{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h2>Parâmetros para Geração de Dados</h2>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{% url 'pocos_app:gerar_tabela' %}">
+                    {% csrf_token %}
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h4>Parâmetros Gerais</h4>
+                            <div class="form-group mb-3">
+                                <label for="{{ form.ano.id_for_label }}">{{ form.ano.label }}</label>
+                                {{ form.ano.errors }}
+                                <input type="number" name="{{ form.ano.html_name }}" id="{{ form.ano.id_for_label }}" 
+                                       class="form-control" value="{{ form.ano.value|default:2025 }}">
+                            </div>
+                            
+                            <div class="form-group mb-3">
+                                <label for="{{ form.horimetro_inicial.id_for_label }}">{{ form.horimetro_inicial.label }}</label>
+                                {{ form.horimetro_inicial.errors }}
+                                <input type="number" step="0.001" name="{{ form.horimetro_inicial.html_name }}" id="{{ form.horimetro_inicial.id_for_label }}" 
+                                       class="form-control" value="{{ form.horimetro_inicial.value|default:0 }}">
+                            </div>
+                            
+                            <div class="form-group mb-3">
+                                <label for="{{ form.horimetro_final.id_for_label }}">{{ form.horimetro_final.label }}</label>
+                                {{ form.horimetro_final.errors }}
+                                <input type="number" step="0.001" name="{{ form.horimetro_final.html_name }}" id="{{ form.horimetro_final.id_for_label }}" 
+                                       class="form-control" value="{{ form.horimetro_final.value|default:50 }}">
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <h4>&nbsp;</h4>
+                            <div class="form-group mb-3">
+                                <label for="{{ form.hidrometro_inicial.id_for_label }}">{{ form.hidrometro_inicial.label }}</label>
+                                {{ form.hidrometro_inicial.errors }}
+                                <input type="number" step="0.001" name="{{ form.hidrometro_inicial.html_name }}" id="{{ form.hidrometro_inicial.id_for_label }}" 
+                                       class="form-control" value="{{ form.hidrometro_inicial.value|default:0 }}">
+                            </div>
+                            
+                            <div class="form-group mb-3">
+                                <label for="{{ form.hidrometro_final.id_for_label }}">{{ form.hidrometro_final.label }}</label>
+                                {{ form.hidrometro_final.errors }}
+                                <input type="number" step="0.001" name="{{ form.hidrometro_final.html_name }}" id="{{ form.hidrometro_final.id_for_label }}" 
+                                       class="form-control" value="{{ form.hidrometro_final.value|default:50 }}">
+                            </div>
+                            
+                            <div class="form-group mb-3">
+                                <label for="{{ form.max_horimetro_diario.id_for_label }}">{{ form.max_horimetro_diario.label }}</label>
+                                {{ form.max_horimetro_diario.errors }}
+                                <input type="number" step="0.001" name="{{ form.max_horimetro_diario.html_name }}" id="{{ form.max_horimetro_diario.id_for_label }}" 
+                                       class="form-control" value="{{ form.max_horimetro_diario.value|default:0.5 }}">
+                            </div>
+                            
+                            <div class="form-group mb-3">
+                                <label for="{{ form.max_hidrometro_diario.id_for_label }}">{{ form.max_hidrometro_diario.label }}</label>
+                                {{ form.max_hidrometro_diario.errors }}
+                                <input type="number" step="0.001" name="{{ form.max_hidrometro_diario.html_name }}" id="{{ form.max_hidrometro_diario.id_for_label }}" 
+                                       class="form-control" value="{{ form.max_hidrometro_diario.value|default:0.5 }}">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="form-check mb-3">
+                                <input type="checkbox" class="form-check-input" name="{{ form.calcular_automaticamente.html_name }}" 
+                                       id="{{ form.calcular_automaticamente.id_for_label }}" 
+                                       {% if form.calcular_automaticamente.value %}checked{% endif %}>
+                                <label class="form-check-label" for="{{ form.calcular_automaticamente.id_for_label }}">
+                                    {{ form.calcular_automaticamente.label }}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check mb-3">
+                                <input type="checkbox" class="form-check-input" name="{{ form.projetar_ate_hoje.html_name }}" 
+                                       id="{{ form.projetar_ate_hoje.id_for_label }}" 
+                                       {% if form.projetar_ate_hoje.value %}checked{% endif %}>
+                                <label class="form-check-label" for="{{ form.projetar_ate_hoje.id_for_label }}">
+                                    {{ form.projetar_ate_hoje.label }}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Parâmetros Mensais</h4>
+                    <div class="alert alert-info">
+                        Os dias por mês são configurados automaticamente com base no ano selecionado, considerando anos bissextos.
+                        Se o ano selecionado for o ano atual e a opção "Projetar até a data atual" estiver marcada, os meses futuros terão 0 dias
+                        e o mês atual terá apenas os dias até hoje.
+                    </div>
+                    
+                    <div class="row">
+                        <!-- Janeiro a Março -->
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0">Janeiro</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group mb-2">
+                                        <label for="{{ form.vazao_jan.id_for_label }}">{{ form.vazao_jan.label }}</label>
+                                        {{ form.vazao_jan.errors }}
+                                        <input type="number" step="0.001" name="{{ form.vazao_jan.html_name }}" id="{{ form.vazao_jan.id_for_label }}" 
+                                               class="form-control" value="{{ form.vazao_jan.value|default:0.03 }}">
+                                    </div>
+                                    <div class="form-group mb-2">
+                                        <label for="{{ form.horas_jan.id_for_label }}">{{ form.horas_jan.label }}</label>
+                                        {{ form.horas_jan.errors }}
+                                        <input type="number" step="0.01" name="{{ form.horas_jan.html_name }}" id="{{ form.horas_jan.id_for_label }}" 
+                                               class="form-control" value="{{ form.horas_jan.value|default:0.40 }}">
+                                    </div>
+                                    <div class="form-group mb-2">
+                                        <label for="{{ form.dias_jan.id_for_label }}">{{ form.dias_jan.label }}</label>
+                                        {{ form.dias_jan.errors }}
+                                        <input type="number" name="{{ form.dias_jan.html_name }}" id="{{ form.dias_jan.id_for_label }}" 
+                                               class="form-control" value="{{ form.dias_jan.value|default:31 }}">
+                                        <small class="form-text text-muted">{{ form.dias_jan.help_text }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Continuar com os outros meses... -->
+                        </div>
+                        
+                        <!-- Outros meses... -->
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">Gerar Tabela</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Script para atualizar os dias máximos quando o ano mudar
+    document.addEventListener('DOMContentLoaded', function() {
+        const anoInput = document.getElementById('{{ form.ano.id_for_label }}');
+        const projetarAteHojeCheckbox = document.getElementById('{{ form.projetar_ate_hoje.id_for_label }}');
+        
+        // Função para atualizar os dias máximos
+        function atualizarDiasMaximos() {
+            const ano = parseInt(anoInput.value);
+            const projetarAteHoje = projetarAteHojeCheckbox.checked;
+            const dataAtual = new Date();
+            const anoAtual = dataAtual.getFullYear();
+            const mesAtual = dataAtual.getMonth() + 1; // Janeiro é 0
+            const diaAtual = dataAtual.getDate();
+            
+            // Verificar se é ano bissexto
+            const isBissexto = (ano % 4 === 0 && ano % 100 !== 0) || (ano % 400 === 0);
+            
+            // Configurar dias máximos para cada mês
+            const diasPorMes = {
+                'jan': 31,
+                'fev': isBissexto ? 29 : 28,
+                'mar': 31,
+                'abr': 30,
+                'mai': 31,
+                'jun': 30,
+                'jul': 31,
+                'ago': 31,
+                'set': 30,
+                'out': 31,
+                'nov': 30,
+                'dez': 31
+            };
+            
+            // Atualizar os campos de dias
+            Object.keys(diasPorMes).forEach((mes, index) => {
+                const mesNum = index + 1; // Janeiro = 1, Fevereiro = 2, etc.
+                const diasInput = document.getElementById(`{{ form.dias_jan.id_for_label }}`.replace('jan', mes));
+                if (diasInput) {
+                    const helpText = diasInput.nextElementSibling;
+                    
+                    // Atualizar o texto de ajuda
+                    if (helpText) {
+                        helpText.textContent = `Máximo: ${diasPorMes[mes]} dias`;
+                    }
+                    
+                    // Se for o ano atual e a opção de projetar até hoje estiver marcada
+                    if (projetarAteHoje && ano === anoAtual) {
+                        if (mesNum > mesAtual) {
+                            // Mês futuro - definir como 0 dias
+                            diasInput.value = 0;
+                            diasInput.max = 0;
+                            if (helpText) {
+                                helpText.textContent = `Máximo: 0 dias (mês futuro)`;
+                            }
+                        } else if (mesNum === mesAtual) {
+                            // Mês atual - definir como o dia atual
+                            diasInput.value = Math.min(parseInt(diasInput.value) || 0, diaAtual);
+                            diasInput.max = diaAtual;
+                            if (helpText) {
+                                helpText.textContent = `Máximo: ${diaAtual} dias (mês atual)`;
+                            }
+                        } else {
+                            // Mês passado - manter o valor atual, mas atualizar o máximo
+                            diasInput.max = diasPorMes[mes];
+                        }
+                    } else {
+                        // Não está projetando até hoje ou não é o ano atual
+                        diasInput.max = diasPorMes[mes];
+                    }
+                }
+            });
+        }
+        
+        // Atualizar quando o ano ou a opção de projetar até hoje mudar
+        if (anoInput) {
+            anoInput.addEventListener('change', atualizarDiasMaximos);
+        }
+        if (projetarAteHojeCheckbox) {
+            projetarAteHojeCheckbox.addEventListener('change', atualizarDiasMaximos);
+        }
+        
+        // Atualizar na carga inicial
+        atualizarDiasMaximos();
+    });
+</script>
+{% endblock %}

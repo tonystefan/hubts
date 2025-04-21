@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles for UFTM theme with yellow colors */
+:root {
+  --color-primary: #FFD700;
+  --color-primary-dark: #DAA520;
+  --color-primary-light: #FFEB99;
+  --color-secondary: #4B0082;
+  --color-accent: #FF8C00;
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded;
+  }
+  
+  .btn-secondary {
+    @apply bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded;
+  }
+  
+  .card {
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md p-6;
+  }
+  
+  .sidebar-item {
+    @apply flex items-center p-3 text-gray-700 dark:text-gray-200 hover:bg-yellow-100 dark:hover:bg-yellow-900 rounded-md;
+  }
+  
+  .sidebar-item.active {
+    @apply bg-yellow-200 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-200;
+  }
+}
+
+/* Dark mode toggle styles */
+.dark-mode-toggle {
+  @apply fixed bottom-4 right-4 bg-gray-200 dark:bg-gray-700 p-2 rounded-full shadow-lg;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-yellow-400 dark:bg-yellow-600 rounded-full;
+}
+
+/* Notification styles */
+.notification-badge {
+  @apply absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center;
+}
+
+.notification-panel {
+  @apply absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-md shadow-lg overflow-hidden z-50;
+}
+
+/* Dashboard card styles */
+.dashboard-card {
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-l-4 border-yellow-500;
+}
+
+.dashboard-card-title {
+  @apply text-lg font-semibold text-gray-700 dark:text-gray-200 mb-2;
+}
+
+.dashboard-card-value {
+  @apply text-3xl font-bold text-yellow-600 dark:text-yellow-400;
+}
+
+/* Form styles */
+.form-input {
+  @apply mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring focus:ring-yellow-200 focus:ring-opacity-50;
+}
+
+.form-label {
+  @apply block text-sm font-medium text-gray-700 dark:text-gray-300;
+}
+
+.form-error {
+  @apply mt-1 text-sm text-red-600 dark:text-red-400;
+}
+
+/* Table styles */
+.table-container {
+  @apply overflow-x-auto rounded-lg shadow;
+}
+
+.data-table {
+  @apply min-w-full divide-y divide-gray-200 dark:divide-gray-700;
+}
+
+.data-table thead {
+  @apply bg-yellow-50 dark:bg-yellow-900;
+}
+
+.data-table th {
+  @apply px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider;
+}
+
+.data-table tbody {
+  @apply bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700;
+}
+
+.data-table td {
+  @apply px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400;
+}
+
+.data-table tr:hover {
+  @apply bg-yellow-50 dark:bg-yellow-900/30;
+}

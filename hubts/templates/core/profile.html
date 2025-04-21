@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Perfil - Plataforma Multi-App{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-3xl mx-auto">
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Meu Perfil</h1>
+        
+        <div class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
+            <div class="p-6">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="md:w-1/3">
+                            <div class="flex flex-col items-center">
+                                {% if user.profile_image %}
+                                <img src="{{ user.profile_image.url }}" alt="{{ user.username }}" class="h-32 w-32 rounded-full object-cover mb-4">
+                                {% else %}
+                                <div class="h-32 w-32 rounded-full bg-yellow-500 flex items-center justify-center text-white text-4xl mb-4">
+                                    {{ user.first_name|first }}{{ user.last_name|first }}
+                                </div>
+                                {% endif %}
+                                
+                                <label for="{{ form.profile_image.id_for_label }}" class="btn-primary cursor-pointer text-center w-full">
+                                    <i class="bx bx-upload mr-2"></i> Alterar foto
+                                </label>
+                                <input id="{{ form.profile_image.id_for_label }}" name="{{ form.profile_image.html_name }}" type="file" class="hidden">
+                                {{ form.profile_image.errors }}
+                            </div>
+                        </div>
+                        
+                        <div class="md:w-2/3">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="{{ form.first_name.id_for_label }}" class="form-label">Nome</label>
+                                    {{ form.first_name.errors }}
+                                    <input id="{{ form.first_name.id_for_label }}" name="{{ form.first_name.html_name }}" type="text" value="{{ form.first_name.value }}" class="form-input">
+                                </div>
+                                
+                                <div>
+                                    <label for="{{ form.last_name.id_for_label }}" class="form-label">Sobrenome</label>
+                                    {{ form.last_name.errors }}
+                                    <input id="{{ form.last_name.id_for_label }}" name="{{ form.last_name.html_name }}" type="text" value="{{ form.last_name.value }}" class="form-input">
+                                </div>
+                                
+                                <div>
+                                    <label for="{{ form.email.id_for_label }}" class="form-label">Email</label>
+                                    {{ form.email.errors }}
+                                    <input id="{{ form.email.id_for_label }}" name="{{ form.email.html_name }}" type="email" value="{{ form.email.value }}" class="form-input">
+                                </div>
+                                
+                                <div>
+                                    <label for="{{ form.username.id_for_label }}" class="form-label">Nome de usuário</label>
+                                    {{ form.username.errors }}
+                                    <input id="{{ form.username.id_for_label }}" name="{{ form.username.html_name }}" type="text" value="{{ form.username.value }}" class="form-input">
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6">
+                                <button type="submit" class="btn-primary">
+                                    <i class="bx bx-save mr-2"></i> Salvar alterações
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="mt-8 bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
+            <div class="p-6">
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Aplicativos com acesso</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {% for app in user_apps %}
+                    <div class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg flex items-center">
+                        <div class="bg-yellow-100 dark:bg-yellow-900 p-3 rounded-full mr-4">
+                            <i class="bx bxs-{{ app.icon }} text-xl text-yellow-600 dark:text-yellow-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-900 dark:text-white">{{ app.name }}</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Nível: {{ app.role|title }}</p>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-span-2 p-4 border border-gray-200 dark:border-gray-700 rounded-lg text-center text-gray-500 dark:text-gray-400">
+                        Você não tem acesso a nenhum aplicativo. Entre em contato com um administrador.
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

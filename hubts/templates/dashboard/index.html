@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Plataforma Multi-App{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Dashboard</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {% if pocos_stats %}
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+            <div class="p-4 bg-yellow-50 dark:bg-yellow-900/30 border-b border-yellow-100 dark:border-yellow-900/50">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-yellow-100 dark:bg-yellow-900 rounded-full flex items-center justify-center mr-3">
+                        <i class="bx bxs-water-drop text-xl text-yellow-600 dark:text-yellow-400"></i>
+                    </div>
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Poços de Água</h2>
+                </div>
+            </div>
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="dashboard-card">
+                        <p class="dashboard-card-title">Total de Poços</p>
+                        <p class="dashboard-card-value">{{ pocos_stats.total_pocos }}</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <p class="dashboard-card-title">Consumo Total</p>
+                        <p class="dashboard-card-value">{{ pocos_stats.total_consumo }} m³</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <p class="dashboard-card-title">Média de Horas</p>
+                        <p class="dashboard-card-value">{{ pocos_stats.media_horas }}</p>
+                    </div>
+                </div>
+                <div class="mt-6 text-center">
+                    <a href="/pocos/" class="btn-primary">
+                        <i class="bx bx-right-arrow-alt mr-1"></i> Ir para Poços de Água
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        {% if caronas_stats %}
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+            <div class="p-4 bg-yellow-50 dark:bg-yellow-900/30 border-b border-yellow-100 dark:border-yellow-900/50">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-yellow-100 dark:bg-yellow-900 rounded-full flex items-center justify-center mr-3">
+                        <i class="bx bxs-car text-xl text-yellow-600 dark:text-yellow-400"></i>
+                    </div>
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Caronas</h2>
+                </div>
+            </div>
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="dashboard-card">
+                        <p class="dashboard-card-title">Total de Caronas</p>
+                        <p class="dashboard-card-value">{{ caronas_stats.total_caronas }}</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <p class="dashboard-card-title">Quilômetros Percorridos</p>
+                        <p class="dashboard-card-value">{{ caronas_stats.total_km }} km</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <p class="dashboard-card-title">Economia Total</p>
+                        <p class="dashboard-card-value">R$ {{ caronas_stats.total_economia }}</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <p class="dashboard-card-title">Seu Saldo</p>
+                        <p class="dashboard-card-value {% if caronas_stats.saldo < 0 %}text-red-600 dark:text-red-400{% else %}text-green-600 dark:text-green-400{% endif %}">
+                            R$ {{ caronas_stats.saldo }}
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-6 text-center">
+                    <a href="/caronas/" class="btn-primary">
+                        <i class="bx bx-right-arrow-alt mr-1"></i> Ir para Caronas
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+    {% if not pocos_stats and not caronas_stats %}
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8 text-center">
+        <div class="w-16 h-16 bg-yellow-100 dark:bg-yellow-900 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="bx bx-lock-alt text-2xl text-yellow-600 dark:text-yellow-400"></i>
+        </div>
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Sem acesso a aplicativos</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-4">
+            Você ainda não tem permissão para acessar nenhum aplicativo na plataforma.
+        </p>
+        <p class="text-gray-600 dark:text-gray-400">
+            Entre em contato com um administrador para solicitar acesso.
+        </p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

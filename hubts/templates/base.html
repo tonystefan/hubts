@@ -1,0 +1,169 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br" class="{% if user.dark_mode %}dark{% endif %}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Plataforma Multi-App{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen flex flex-col">
+    <div class="flex flex-1">
+        <!-- Sidebar -->
+        {% if user.is_authenticated %}
+        <aside class="w-64 bg-white dark:bg-gray-800 shadow-md h-screen sticky top-0 overflow-y-auto hidden md:block" x-data="{ open: false }">
+            <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-center">
+                    <span class="text-2xl font-bold text-yellow-500">UFTM</span>
+                </div>
+            </div>
+            
+            <nav class="mt-4 px-2">
+                <a href="{% url 'dashboard:index' %}" class="sidebar-item {% if request.resolver_match.app_name == 'dashboard' %}active{% endif %}">
+                    <i class="bx bxs-dashboard mr-3 text-xl"></i>
+                    <span>Dashboard</span>
+                </a>
+                
+                {% for app in user_apps %}
+                <a href="{{ app.url }}" class="sidebar-item {% if request.resolver_match.app_name == app.id %}active{% endif %}">
+                    <i class="bx bxs-{{ app.icon }} mr-3 text-xl"></i>
+                    <span>{{ app.name }}</span>
+                </a>
+                {% endfor %}
+                
+                <div class="border-t border-gray-200 dark:border-gray-700 my-4"></div>
+                
+                <a href="{% url 'core:profile' %}" class="sidebar-item {% if request.resolver_match.url_name == 'profile' %}active{% endif %}">
+                    <i class="bx bxs-user-circle mr-3 text-xl"></i>
+                    <span>Meu Perfil</span>
+                </a>
+                
+                <a href="{% url 'core:notifications' %}" class="sidebar-item {% if request.resolver_match.url_name == 'notifications' %}active{% endif %} relative">
+                    <i class="bx bxs-bell mr-3 text-xl"></i>
+                    <span>Notificações</span>
+                    {% with unread_count=user.notifications.filter.is_read=False.count %}
+                    {% if unread_count > 0 %}
+                    <span class="notification-badge">{{ unread_count }}</span>
+                    {% endif %}
+                    {% endwith %}
+                </a>
+                
+                <a href="{% url 'core:logout' %}" class="sidebar-item text-red-600 dark:text-red-400">
+                    <i class="bx bxs-log-out mr-3 text-xl"></i>
+                    <span>Sair</span>
+                </a>
+            </nav>
+        </aside>
+        {% endif %}
+        
+        <!-- Main content -->
+        <main class="flex-1 p-4">
+            <!-- Mobile header -->
+            <div class="md:hidden flex items-center justify-between mb-4">
+                <button class="text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100" @click="open = !open">
+                    <i class="bx bx-menu text-2xl"></i>
+                </button>
+                <span class="text-xl font-bold text-yellow-500">UFTM</span>
+                {% if user.is_authenticated %}
+                <div class="relative" x-data="{ profileOpen: false }">
+                    <button @click="profileOpen = !profileOpen" class="flex items-center focus:outline-none">
+                        {% if user.profile_image %}
+                        <img src="{{ user.profile_image.url }}" alt="{{ user.username }}" class="h-8 w-8 rounded-full">
+                        {% else %}
+                        <div class="h-8 w-8 rounded-full bg-yellow-500 flex items-center justify-center text-white">
+                            {{ user.first_name|first }}{{ user.last_name|first }}
+                        </div>
+                        {% endif %}
+                    </button>
+                    <div x-show="profileOpen" @click.away="profileOpen = false" class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50">
+                        <a href="{% url 'core:profile' %}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-yellow-100 dark:hover:bg-yellow-900">Meu Perfil</a>
+                        <a href="{% url 'core:notifications' %}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-yellow-100 dark:hover:bg-yellow-900">Notificações</a>
+                        <a href="{% url 'core:logout' %}" class="block px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-yellow-100 dark:hover:bg-yellow-900">Sair</a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Mobile sidebar -->
+            {% if user.is_authenticated %}
+            <div x-show="open" @click.away="open = false" class="fixed inset-0 z-40 md:hidden">
+                <div class="fixed inset-0 bg-black opacity-25"></div>
+                <nav class="fixed top-0 left-0 bottom-0 flex flex-col w-64 bg-white dark:bg-gray-800 shadow-lg z-50">
+                    <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                        <span class="text-2xl font-bold text-yellow-500">UFTM</span>
+                        <button @click="open = false" class="text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100">
+                            <i class="bx bx-x text-2xl"></i>
+                        </button>
+                    </div>
+                    <div class="overflow-y-auto p-2">
+                        <a href="{% url 'dashboard:index' %}" class="sidebar-item {% if request.resolver_match.app_name == 'dashboard' %}active{% endif %}">
+                            <i class="bx bxs-dashboard mr-3 text-xl"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        
+                        {% for app in user_apps %}
+                        <a href="{{ app.url }}" class="sidebar-item {% if request.resolver_match.app_name == app.id %}active{% endif %}">
+                            <i class="bx bxs-{{ app.icon }} mr-3 text-xl"></i>
+                            <span>{{ app.name }}</span>
+                        </a>
+                        {% endfor %}
+                        
+                        <div class="border-t border-gray-200 dark:border-gray-700 my-4"></div>
+                        
+                        <a href="{% url 'core:profile' %}" class="sidebar-item {% if request.resolver_match.url_name == 'profile' %}active{% endif %}">
+                            <i class="bx bxs-user-circle mr-3 text-xl"></i>
+                            <span>Meu Perfil</span>
+                        </a>
+                        
+                        <a href="{% url 'core:notifications' %}" class="sidebar-item {% if request.resolver_match.url_name == 'notifications' %}active{% endif %} relative">
+                            <i class="bx bxs-bell mr-3 text-xl"></i>
+                            <span>Notificações</span>
+                            {% with unread_count=user.notifications.filter.is_read=False.count %}
+                            {% if unread_count > 0 %}
+                            <span class="notification-badge">{{ unread_count }}</span>
+                            {% endif %}
+                            {% endwith %}
+                        </a>
+                        
+                        <a href="{% url 'core:logout' %}" class="sidebar-item text-red-600 dark:text-red-400">
+                            <i class="bx bxs-log-out mr-3 text-xl"></i>
+                            <span>Sair</span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+            {% endif %}
+            
+            <!-- Page content -->
+            <div class="container mx-auto">
+                {% if messages %}
+                <div class="mb-4">
+                    {% for message in messages %}
+                    <div class="p-4 rounded-md {% if message.tags == 'success' %}bg-green-100 text-green-700 dark:bg-green-800 dark:text-green-200{% elif message.tags == 'error' %}bg-red-100 text-red-700 dark:bg-red-800 dark:text-red-200{% else %}bg-blue-100 text-blue-700 dark:bg-blue-800 dark:text-blue-200{% endif %}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+    
+    <!-- Dark mode toggle -->
+    {% if user.is_authenticated %}
+    <a href="{% url 'core:toggle_theme' %}" class="dark-mode-toggle">
+        {% if user.dark_mode %}
+        <i class="bx bxs-sun text-xl text-yellow-500"></i>
+        {% else %}
+        <i class="bx bxs-moon text-xl text-indigo-700"></i>
+        {% endif %}
+    </a>
+    {% endif %}
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
