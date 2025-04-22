@@ -19,6 +19,7 @@ ALLOWED_HOSTS = [
     'ALLOWED_HOSTS',
     'hubts-stefanus-projects-37687da3.vercel.app',
     'hubts.vercel.app',
+    '.vercel.app',
     '127.0.0.1'
 ]
 
