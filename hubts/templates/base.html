@@ -5,10 +5,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Plataforma Multi-App{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                light: '#FFEB99',
+                DEFAULT: '#FFD700',
+                dark: '#DAA520',
+              },
+              secondary: {
+                DEFAULT: '#4B0082',
+              },
+              accent: {
+                DEFAULT: '#FF8C00',
+              },
+            }
+          }
+        }
+      }
+    </script>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
 </head>
+
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen flex flex-col">
     <div class="flex flex-1">
         <!-- Sidebar -->
@@ -43,11 +67,7 @@
                 <a href="{% url 'core:notifications' %}" class="sidebar-item {% if request.resolver_match.url_name == 'notifications' %}active{% endif %} relative">
                     <i class="bx bxs-bell mr-3 text-xl"></i>
                     <span>Notificações</span>
-                    {% with unread_count=user.notifications.filter.is_read=False.count %}
-                    {% if unread_count > 0 %}
-                    <span class="notification-badge">{{ unread_count }}</span>
-                    {% endif %}
-                    {% endwith %}
+                    
                 </a>
                 
                 <a href="{% url 'core:logout' %}" class="sidebar-item text-red-600 dark:text-red-400">
@@ -120,11 +140,7 @@
                         <a href="{% url 'core:notifications' %}" class="sidebar-item {% if request.resolver_match.url_name == 'notifications' %}active{% endif %} relative">
                             <i class="bx bxs-bell mr-3 text-xl"></i>
                             <span>Notificações</span>
-                            {% with unread_count=user.notifications.filter.is_read=False.count %}
-                            {% if unread_count > 0 %}
-                            <span class="notification-badge">{{ unread_count }}</span>
-                            {% endif %}
-                            {% endwith %}
+                            
                         </a>
                         
                         <a href="{% url 'core:logout' %}" class="sidebar-item text-red-600 dark:text-red-400">
