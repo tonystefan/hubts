@@ -1,0 +1,227 @@
+/* Arquivo CSS principal para a plataforma multi-app */
+
+/* Variáveis de cores - Tema UFTM (tons de amarelo) */
+:root {
+  --primary-color: #FFD700; /* Amarelo ouro */
+  --primary-dark: #DAA520; /* Amarelo escuro */
+  --primary-light: #FFEB99; /* Amarelo claro */
+  --accent-color: #8B4513; /* Marrom para contraste */
+  --text-dark: #333333;
+  --text-light: #FFFFFF;
+  --background-light: #FFFFFF;
+  --background-dark: #222222;
+  --success-color: #28a745;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  --info-color: #17a2b8;
+}
+
+/* Tema claro (padrão) */
+body {
+  background-color: var(--background-light);
+  color: var(--text-dark);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Tema escuro */
+body.dark-theme {
+  background-color: var(--background-dark);
+  color: var(--text-light);
+}
+
+/* Cabeçalho */
+.navbar {
+  background-color: var(--primary-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+  font-weight: bold;
+  color: var(--text-dark) !important;
+}
+
+/* Sidebar */
+.sidebar {
+  background-color: var(--primary-light);
+  min-height: calc(100vh - 56px);
+  padding-top: 20px;
+  transition: background-color 0.3s;
+}
+
+body.dark-theme .sidebar {
+  background-color: #333;
+}
+
+.sidebar .nav-link {
+  color: var(--text-dark);
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  transition: all 0.2s;
+}
+
+body.dark-theme .sidebar .nav-link {
+  color: var(--text-light);
+}
+
+.sidebar .nav-link:hover {
+  background-color: var(--primary-color);
+}
+
+.sidebar .nav-link.active {
+  background-color: var(--primary-dark);
+  color: var(--text-light);
+}
+
+/* Cartões */
+.card {
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  font-weight: bold;
+}
+
+/* Botões */
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-dark);
+  color: var(--text-dark);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+  color: var(--text-light);
+}
+
+/* Formulários */
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.25);
+}
+
+/* Notificações */
+.notification-badge {
+  background-color: var(--danger-color);
+  color: white;
+  border-radius: 50%;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.notification-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s;
+}
+
+.notification-item:hover {
+  background-color: var(--primary-light);
+}
+
+body.dark-theme .notification-item:hover {
+  background-color: #444;
+}
+
+.notification-item.unread {
+  background-color: rgba(255, 215, 0, 0.1);
+}
+
+/* Alternador de tema */
+.theme-toggle {
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 20px;
+  background-color: var(--background-light);
+  color: var(--text-dark);
+  border: 1px solid #ddd;
+  transition: all 0.3s;
+}
+
+body.dark-theme .theme-toggle {
+  background-color: var(--background-dark);
+  color: var(--text-light);
+  border-color: #555;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .sidebar {
+    min-height: auto;
+    margin-bottom: 20px;
+  }
+  
+  .card:hover {
+    transform: none;
+  }
+}
+
+/* Tabelas */
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: var(--text-dark);
+}
+
+body.dark-theme .table {
+  color: var(--text-light);
+}
+
+.table th {
+  background-color: var(--primary-color);
+  color: var(--text-dark);
+}
+
+body.dark-theme .table th {
+  background-color: var(--primary-dark);
+  color: var(--text-light);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(255, 215, 0, 0.05);
+}
+
+body.dark-theme .table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(255, 215, 0, 0.1);
+}
+
+/* Paginação */
+.page-item.active .page-link {
+  background-color: var(--primary-color);
+  border-color: var(--primary-dark);
+  color: var(--text-dark);
+}
+
+/* Alertas */
+.alert-primary {
+  background-color: var(--primary-light);
+  border-color: var(--primary-color);
+  color: var(--text-dark);
+}
+
+/* Rodapé */
+footer {
+  background-color: var(--primary-color);
+  color: var(--text-dark);
+  padding: 20px 0;
+  margin-top: 30px;
+}
+
+body.dark-theme footer {
+  background-color: #333;
+  color: var(--text-light);
+}
