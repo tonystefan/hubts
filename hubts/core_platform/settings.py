@@ -1,5 +1,5 @@
 """
-Django settings for core_platform project.
+Django settings for core_platform project. teste
 """
 
 import os
