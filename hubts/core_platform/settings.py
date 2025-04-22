@@ -89,10 +89,10 @@ WSGI_APPLICATION = 'core_platform.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': config('DB_NAME'),
         'OPTIONS': {
-            'options': '-c search_path=producao,public'
+            'sslmode': config('DB_SSLMODE'),
         },
         'USER': config('DB_USER'),
         'PASSWORD': config('DB_PASSWORD'),
