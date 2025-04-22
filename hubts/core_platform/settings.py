@@ -15,10 +15,11 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-h3$4j5k6l7m8n9o0p1q2r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS',
-                                'https://hubts-stefanus-projects-37687da3.vercel.app/',
-                                'https://hubts.vercel.app/',
-                                ).split(',')
+ALLOWED_HOSTS = [
+    'ALLOWED_HOSTS',
+    'hubts-stefanus-projects-37687da3.vercel.app',
+    'hubts.vercel.app',
+]
 
 # Application definition
 
