@@ -15,7 +15,7 @@ class VehicleForm(forms.ModelForm):
     """Form for creating and updating vehicles."""
     class Meta:
         model = Vehicle
-        fields = ['model', 'plate', 'fuel_efficiency', 'capacity', 'is_active']
+        fields = ['model', 'plate', 'fuel_efficiency', 'owner']
 
 class FuelPriceForm(forms.ModelForm):
     """Form for creating and updating fuel prices."""
