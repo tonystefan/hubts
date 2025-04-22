@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if form.instance.pk %}Editar{% else %}Nova{% endif %} Rota - Sistema de Caronas{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-yellow-600 dark:text-yellow-400">
+            {% if form.instance.pk %}Editar{% else %}Nova{% endif %} Rota
+        </h1>
+        <a href="{% url 'caronas_app:route_list' %}" class="btn-secondary">
+            <i class="bx bx-arrow-back mr-2"></i>Voltar
+        </a>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="space-y-2">
+                    <label for="{{ form.name.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Nome da Rota
+                    </label>
+                    <input type="text" name="{{ form.name.name }}" id="{{ form.name.id_for_label }}" 
+                           value="{{ form.name.value|default:'' }}" 
+                           class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring focus:ring-yellow-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                           placeholder="Ex: UFTM - Ginásio">
+                    {% if form.name.errors %}
+                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ form.name.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="space-y-2">
+                    <label for="{{ form.distance.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Distância (km)
+                    </label>
+                    <input type="number" step="0.1" name="{{ form.distance.name }}" id="{{ form.distance.id_for_label }}" 
+                           value="{{ form.distance.value|default:'' }}" 
+                           class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring focus:ring-yellow-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                           placeholder="Ex: 2.1">
+                    {% if form.distance.errors %}
+                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ form.distance.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="space-y-2">
+                <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Descrição
+                </label>
+                <textarea name="{{ form.description.name }}" id="{{ form.description.id_for_label }}" rows="3"
+                          class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring focus:ring-yellow-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                          placeholder="Descreva detalhes sobre a rota">{{ form.description.value|default:'' }}</textarea>
+                {% if form.description.errors %}
+                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ form.description.errors.0 }}</p>
+                {% endif %}
+            </div>
+            
+            <div class="flex justify-end pt-4">
+                <button type="submit" class="btn-primary">
+                    <i class="bx bx-save mr-2"></i>Salvar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

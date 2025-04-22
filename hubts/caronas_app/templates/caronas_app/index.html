@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block title %}Caronas - Sistema de Gerenciamento{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold text-yellow-600 dark:text-yellow-400">Sistema de Caronas</h1>
+        <div class="flex space-x-2">
+            <a href="{% url 'caronas_app:my_balance' %}" class="btn-primary">
+                <i class="bx bx-wallet mr-2"></i>Meu Saldo
+            </a>
+            {% if perms.caronas_app.view_report %}
+            <a href="{% url 'caronas_app:reports' %}" class="btn-secondary">
+                <i class="bx bx-bar-chart-alt-2 mr-2"></i>Relatórios
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <!-- Card de Caronas -->
+        <div class="dashboard-card">
+            <div class="flex justify-between items-center">
+                <h2 class="dashboard-card-title">Caronas</h2>
+                <a href="{% url 'caronas_app:carpool_list' %}" class="text-yellow-600 hover:text-yellow-700 dark:text-yellow-400 dark:hover:text-yellow-300">
+                    <i class="bx bx-right-arrow-alt text-xl"></i>
+                </a>
+            </div>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">Gerencie caronas para treinos de handball</p>
+            <div class="flex justify-between">
+                <a href="{% url 'caronas_app:carpool_list' %}" class="text-yellow-600 hover:text-yellow-700 dark:text-yellow-400 dark:hover:text-yellow-300 flex items-center">
+                    <i class="bx bx-list-ul mr-1"></i> Ver Caronas
+                </a>
+                <a href="{% url 'caronas_app:carpool_create' %}" class="text-yellow-600 hover:text-yellow-700 dark:text-yellow-400 dark:hover:text-yellow-300 flex items-center">
+                    <i class="bx bx-plus mr-1"></i> Nova Carona
+                </a>
+            </div>
+        </div>
+
+        <!-- Card de Rotas -->
+        <div class="dashboard-card">
+            <div class="flex justify-between items-center">
+                <h2 class="dashboard-card-title">Rotas</h2>
+                <a href="{% url 'caronas_app:route_list' %}" class="text-yellow-600 hover:text-yellow-700 dark:text-yellow-400 dark:hover:text-yellow-300">
+                    <i class="bx bx-right-arrow-alt text-xl"></i>
+                </a>
+            </div>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">Gerencie rotas para treinos</p>
+            <div class="flex justify-between">
+                <a href="{% url 'caronas_app:route_list' %}" class="text-yellow-600 hover:text-yellow-700 dark:text-yellow-400 dark:hover:text-yellow-300 flex items-center">
+                    <i class="bx bx-list-ul mr-1"></i> Ver Rotas
+                </a>
+                <a href="{% url 'caronas_app:route_create' %}" class="text-yellow-600 hover:text-yellow-700 dark:text-yellow-400 dark:hover:text-yellow-300 flex items-center">
+                    <i class="bx bx-plus mr-1"></i> Nova Rota
+                </a>
+            </div>
+        </div>
+
+        <!-- Card de Veículos -->
+        <div class="dashboard-card">
+            <div class="flex justify-between items-center">
+                <h2 class="dashboard-card-title">Veículos</h2>
+                <a href="{% url 'caronas_app:vehicle_list' %}" class="text-yellow-600 hover:text-yellow-700 dark:text-yellow-400 dark:hover:text-yellow-300">
+                    <i class="bx bx-right-arrow-alt text-xl"></i>
+                </a>
+            </div>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">Gerencie veículos para caronas</p>
+            <div class="flex justify-between">
+                <a href="{% url 'caronas_app:vehicle_list' %}" class="text-yellow-600 hover:text-yellow-700 dark:text-yellow-400 dark:hover:text-yellow-300 flex items-center">
+                    <i class="bx bx-list-ul mr-1"></i> Ver Veículos
+                </a>
+                <a href="{% url 'caronas_app:vehicle_create' %}" class="text-yellow-600 hover:text-yellow-700 dark:text-yellow-400 dark:hover:text-yellow-300 flex items-center">
+                    <i class="bx bx-plus mr-1"></i> Novo Veículo
+                </a>
+            </div>
+        </div>
+
+        <!-- Card de Preços de Combustível -->
+        <div class="dashboard-card">
+            <div class="flex justify-between items-center">
+                <h2 class="dashboard-card-title">Preços de Combustível</h2>
+                <a href="{% url 'caronas_app:fuel_price_list' %}" class="text-yellow-600 hover:text-yellow-700 dark:text-yellow-400 dark:hover:text-yellow-300">
+                    <i class="bx bx-right-arrow-alt text-xl"></i>
+                </a>
+            </div>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">Gerencie preços de combustível</p>
+            <div class="flex justify-between">
+                <a href="{% url 'caronas_app:fuel_price_list' %}" class="text-yellow-600 hover:text-yellow-700 dark:text-yellow-400 dark:hover:text-yellow-300 flex items-center">
+                    <i class="bx bx-list-ul mr-1"></i> Ver Preços
+                </a>
+                <a href="{% url 'caronas_app:fuel_price_create' %}" class="text-yellow-600 hover:text-yellow-700 dark:text-yellow-400 dark:hover:text-yellow-300 flex items-center">
+                    <i class="bx bx-plus mr-1"></i> Novo Preço
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8">
+        <h2 class="text-xl font-semibold text-yellow-600 dark:text-yellow-400 mb-4">Como Funciona</h2>
+        <div class="space-y-4">
+            <div class="flex items-start">
+                <div class="bg-yellow-100 dark:bg-yellow-900 rounded-full p-2 mr-3">
+                    <span class="text-yellow-600 dark:text-yellow-400 font-bold">1</span>
+                </div>
+                <div>
+                    <h3 class="font-medium">Cadastre Rotas e Veículos</h3>
+                    <p class="text-gray-600 dark:text-gray-300">Primeiro, cadastre as rotas disponíveis (ida/volta) e os veículos que serão utilizados.</p>
+                </div>
+            </div>
+            <div class="flex items-start">
+                <div class="bg-yellow-100 dark:bg-yellow-900 rounded-full p-2 mr-3">
+                    <span class="text-yellow-600 dark:text-yellow-400 font-bold">2</span>
+                </div>
+                <div>
+                    <h3 class="font-medium">Registre Caronas</h3>
+                    <p class="text-gray-600 dark:text-gray-300">Crie registros de caronas, indicando motorista, veículo, rota e participantes.</p>
+                </div>
+            </div>
+            <div class="flex items-start">
+                <div class="bg-yellow-100 dark:bg-yellow-900 rounded-full p-2 mr-3">
+                    <span class="text-yellow-600 dark:text-yellow-400 font-bold">3</span>
+                </div>
+                <div>
+                    <h3 class="font-medium">Acompanhe Saldos</h3>
+                    <p class="text-gray-600 dark:text-gray-300">O sistema calcula automaticamente os custos e mantém o controle de quem deve para quem.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

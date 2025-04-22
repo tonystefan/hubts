@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if form.instance.pk %}Editar{% else %}Novo{% endif %} Veículo - Sistema de Caronas{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-yellow-600 dark:text-yellow-400">
+            {% if form.instance.pk %}Editar{% else %}Novo{% endif %} Veículo
+        </h1>
+        <a href="{% url 'caronas_app:vehicle_list' %}" class="btn-secondary">
+            <i class="bx bx-arrow-back mr-2"></i>Voltar
+        </a>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="space-y-2">
+                    <label for="{{ form.model.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Modelo do Veículo
+                    </label>
+                    <input type="text" name="{{ form.model.name }}" id="{{ form.model.id_for_label }}" 
+                           value="{{ form.model.value|default:'' }}" 
+                           class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring focus:ring-yellow-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                           placeholder="Ex: Honda Fit">
+                    {% if form.model.errors %}
+                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ form.model.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="space-y-2">
+                    <label for="{{ form.plate.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Placa
+                    </label>
+                    <input type="text" name="{{ form.plate.name }}" id="{{ form.plate.id_for_label }}" 
+                           value="{{ form.plate.value|default:'' }}" 
+                           class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring focus:ring-yellow-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                           placeholder="Ex: ABC1234">
+                    {% if form.plate.errors %}
+                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ form.plate.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="space-y-2">
+                    <label for="{{ form.fuel_efficiency.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Consumo (km/l)
+                    </label>
+                    <input type="number" step="0.1" name="{{ form.fuel_efficiency.name }}" id="{{ form.fuel_efficiency.id_for_label }}" 
+                           value="{{ form.fuel_efficiency.value|default:'' }}" 
+                           class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring focus:ring-yellow-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                           placeholder="Ex: 9.0">
+                    {% if form.fuel_efficiency.errors %}
+                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ form.fuel_efficiency.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="space-y-2">
+                    <label for="{{ form.owner.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Proprietário
+                    </label>
+                    <select name="{{ form.owner.name }}" id="{{ form.owner.id_for_label }}" 
+                            class="form-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring focus:ring-yellow-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                        {% for choice in form.owner.field.choices %}
+                        <option value="{{ choice.0 }}" {% if form.owner.value|stringformat:"s" == choice.0|stringformat:"s" %}selected{% endif %}>
+                            {{ choice.1 }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                    {% if form.owner.errors %}
+                    <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ form.owner.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="space-y-2">
+                <label for="{{ form.notes.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Observações
+                </label>
+                <textarea name="{{ form.notes.name }}" id="{{ form.notes.id_for_label }}" rows="3"
+                          class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring focus:ring-yellow-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                          placeholder="Observações sobre o veículo">{{ form.notes.value|default:'' }}</textarea>
+                {% if form.notes.errors %}
+                <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ form.notes.errors.0 }}</p>
+                {% endif %}
+            </div>
+            
+            <div class="flex justify-end pt-4">
+                <button type="submit" class="btn-primary">
+                    <i class="bx bx-save mr-2"></i>Salvar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
