@@ -53,7 +53,7 @@
                     <input type="number" step="0.1" name="{{ form.fuel_efficiency.name }}" id="{{ form.fuel_efficiency.id_for_label }}" 
                            value="{{ form.fuel_efficiency.value|default:'' }}" 
                            class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring focus:ring-yellow-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                           placeholder="Ex: 9.0">
+                           placeholder="Ex: 10">
                     {% if form.fuel_efficiency.errors %}
                     <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ form.fuel_efficiency.errors.0 }}</p>
                     {% endif %}

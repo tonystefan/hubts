@@ -6,7 +6,7 @@ class RouteForm(forms.ModelForm):
     """Form for creating and updating routes."""
     class Meta:
         model = Route
-        fields = ['name', 'distance_km', 'description', 'is_active']
+        fields = ['name', 'distance_km', 'description']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3}),
         }
